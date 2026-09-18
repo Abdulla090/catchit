@@ -10,10 +10,11 @@ import {
   Share,
   TextInput,
   ScrollView,
+  Platform,
 } from 'react-native';
 import { Image } from 'expo-image';
 import * as Sharing from 'expo-sharing';
-import * as MediaLibrary from 'expo-media-library';
+import { saveStickerToGallery } from '../../utils/saveToGallery';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppStore } from '../../store/useAppStore';
 import { lightColors, darkColors } from '../../theme/colors';
@@ -82,33 +83,9 @@ export const StickerDetailModal: React.FC = () => {
 
   const handleSaveToGallery = async () => {
     hapticFeedback.medium();
-    try {
-      const { status } = await MediaLibrary.requestPermissionsAsync();
-      if (status === 'granted') {
-        let localUri = selectedSticker.imageUri;
-
-        // Remote HTTP/HTTPS URIs must be downloaded locally before saving to MediaLibrary
-        if (localUri.startsWith('http://') || localUri.startsWith('https://')) {
-          try {
-            const FileSystem = require('expo-file-system/legacy');
-            const ext = localUri.includes('.png') ? 'png' : 'jpg';
-            const targetPath = `${FileSystem.cacheDirectory || ''}sticker-${selectedSticker.id}-${Date.now()}.${ext}`;
-            const downloadResult = await FileSystem.downloadAsync(localUri, targetPath);
-            localUri = downloadResult.uri;
-          } catch (dlErr) {
-            console.warn('Sticker image download failed:', dlErr);
-          }
-        }
-
-        await MediaLibrary.saveToLibraryAsync(localUri);
-        hapticFeedback.peelComplete();
-        Alert.alert('Saved to Camera Roll!', `${selectedSticker.name} is now saved in your photo library.`);
-      } else {
-        Alert.alert('Permission needed', 'Please allow photo library access to export stickers.');
-      }
-    } catch (err) {
-      console.warn('Save to library error:', err);
-      Alert.alert('Save Failed', 'Could not save sticker to photo library.');
+    const success = await saveStickerToGallery(selectedSticker.imageUri, selectedSticker.name);
+    if (success) {
+      hapticFeedback.peelComplete();
     }
   };
 
