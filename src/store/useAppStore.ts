@@ -111,7 +111,7 @@ export const useAppStore = create<AppStoreState>((set, get) => ({
   setActiveBoardId: (activeBoardId) => set({ activeBoardId }),
 
   createBoard: ({ title, theme, pattern, backgroundColor, description }) => {
-    const newId = `board-${Date.now()}`;
+    const newId = `board-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const newBoard: Board = {
       id: newId,
       title,
@@ -182,7 +182,7 @@ export const useAppStore = create<AppStoreState>((set, get) => ({
     const state = get();
     const source = state.boards.find((b) => b.id === boardId);
     if (!source) return '';
-    const newId = `board-${Date.now()}`;
+    const newId = `board-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     const newBoard: Board = {
       ...source,
       id: newId,
