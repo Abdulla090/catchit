@@ -1,25 +1,70 @@
 {
   "expo": {
-    "name": "catchit",
+    "name": "CatchIt",
     "slug": "catchit",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "scheme": "catchit",
+    "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.catchit.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "PawCut needs camera access to capture stray cats and beloved pets to transform them into stickers.",
+        "NSPhotoLibraryUsageDescription": "PawCut saves and imports your pet photos to generate sticker cutouts.",
+        "NSPhotoLibraryAddUsageDescription": "PawCut saves high-quality pet stickers to your photo library.",
+        "NSLocationWhenInUseUsageDescription": "PawCut notes the neighborhood location of spotted stray animals on your sticker map."
+      }
     },
     "android": {
+      "package": "com.catchit.app",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#FAF8F5",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-image",
+      "expo-sharing",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "PawCut needs camera access to capture stray cats and pets."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "PawCut records animal sighting spots on your interactive pet map."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "PawCut accesses photos to import and save stickers.",
+          "savePhotosPermission": "PawCut saves custom animal stickers to your gallery."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "PawCut accesses your photo library to pick pet photos for sticker cutting."
+        }
+      ]
+    ]
   }
 }

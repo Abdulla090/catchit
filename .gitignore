@@ -39,3 +39,9 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# temp build and deployment artifacts
+temp_export/
+temp_export_verify/
+temp_export_android/
+.vercel/
